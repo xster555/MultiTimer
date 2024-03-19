@@ -62,6 +62,15 @@ void handleLeftButtonLongPressStart()
     if (!increaseSelected)
       decreaseSelected = true;
   }
+  else
+  {
+    timerState = 0;
+    currentRep = 0;
+    preCountDown = 3;
+    removeMenuSprites();
+    setupMenuSprites();
+    setupButtonSprites();
+  }
 }
 void handleLeftButtonLongPressStop()
 {
@@ -83,12 +92,12 @@ void handleRightButtonClick()
   else if (timerState == 1)
   { // Run state, goto pause
     timerState = 2;
-    updateMenuButtons();
+    updateRunButtons();
   }
   else if (timerState == 2)
   { // Pause state, goto run
     timerState = 1;
-    updateMenuButtons();
+    updateRunButtons();
   }
 }
 
@@ -234,7 +243,20 @@ void setupButtonSprites()
   setupMenuButtons();
 }
 
-void updateMenuButtons()
+void setupFinishButtons()
+{
+  leftButtonSprite.fillSprite(TFT_RED);
+  leftButtonSprite.setTextDatum(MC_DATUM);
+  leftButtonSprite.setTextColor(TFT_BLACK, TFT_RED);
+  leftButtonSprite.setTextSize(2);
+  leftButtonSprite.drawString("RESET", leftButtonSprite.width() / 2, leftButtonSprite.height() / 2);
+  leftButtonSprite.pushSprite(0, TFT_HEIGHT - 20);
+
+  rightButtonSprite.fillSprite(TFT_DARKGREY);
+  rightButtonSprite.pushSprite(TFT_WIDTH - rightButtonSprite.width(), TFT_HEIGHT - 20);
+}
+
+void updateRunButtons()
 {
   rightButtonSprite.setTextDatum(MC_DATUM);
   rightButtonSprite.setTextSize(2);
@@ -433,7 +455,10 @@ void loop()
     if (timerState == 1)
       updateCounter();
     else if (timerState == 3)
+    {
       updateCounterFinish();
+      setupFinishButtons();
+    }
   }
 
   if (timerState == 1)
