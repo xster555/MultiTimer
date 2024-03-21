@@ -70,6 +70,7 @@ void handleLeftButtonLongPressStart()
     timerState = 0;
     currentRep = 0;
     preCountDown = 3;
+    isWork = false;
     removeMenuSprites();
     setupMenuSprites();
     setupButtonSprites();
