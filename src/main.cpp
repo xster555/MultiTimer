@@ -408,6 +408,56 @@ void saveData()
   EEPROM.end();
 }
 
+TFT_eSprite H = TFT_eSprite(&tft);
+void playAnimation()
+{
+
+  tft.setTextDatum(BL_DATUM);
+  tft.drawString("Designed by", 10, TFT_HEIGHT - 10);
+  tft.setTextSize(2);
+  tft.drawString("XSTER", 83, TFT_HEIGHT - 10);
+  H.createSprite(TFT_WIDTH, 280);
+
+  H.fillSprite(TFT_BLACK);
+  for (int i = 0; i <= 280; i += 20)
+  {
+    H.fillRect(10, 10, 25, i, TFT_RED);
+    H.fillRect(TFT_WIDTH - 35, 10, 25, i, TFT_RED);
+    if (i <= 120)
+      H.fillTriangle(30, 120, 30, 145, 30 + i, 120, TFT_RED);
+
+    H.pushSprite(0, 0);
+    delay(10);
+  }
+
+  for (int i = 0; i <= 20; i += 10)
+  {
+    H.fillRect(50, 10, i, i, TFT_LIGHTGREY);
+    H.fillRect(TFT_WIDTH / 2 + 15, 10, i, i, TFT_LIGHTGREY);
+    H.pushSprite(0, 0);
+    delay(10);
+  }
+
+  for (int i = 0; i <= 60; i += 10)
+  {
+    H.fillRect(50, 40, 20, i, TFT_LIGHTGREY);
+    H.fillRect(TFT_WIDTH / 2 + 15, 40, 20, i, TFT_LIGHTGREY);
+    H.pushSprite(0, 0);
+    delay(10);
+  }
+
+  for (int i = 0; i <= 150; i += 15)
+  {
+    if (i <= 110)
+    {
+      H.fillTriangle(TFT_WIDTH - 35, 120, TFT_WIDTH - 35, 145, TFT_WIDTH - 35 - i, 145, TFT_LIGHTGREY);
+    }
+    H.fillRect(TFT_WIDTH / 2 - 14, 140, 32, i, TFT_LIGHTGREY);
+    H.pushSprite(0, 0);
+    delay(10);
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -415,6 +465,11 @@ void setup()
   loadData();
 
   tft.init();
+  tft.fillScreen(TFT_BLACK);
+  delay(200);
+  playAnimation();
+  delay(800);
+
   tft.fillScreen(TFT_DARKGREY);
 
   setupMenuSprites();
